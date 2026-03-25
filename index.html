@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BoGuS_PT — Collector Tracker Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bangers&family=Bebas+Neue&family=Barlow+Condensed:wght@600;700;900&family=Nunito:wght@700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#050d1c;--bg2:#08152a;
+  --yellow:#ffc820;--cyan:#38d4ff;
+  --white:#e8f6ff;--muted:#3d5a80;--muted2:#6a8aaa;
+  --border:rgba(56,212,255,0.12);--border2:rgba(56,212,255,0.26);
+  --radius:14px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);color:var(--white);
+  font-family:'Nunito',sans-serif;min-height:100vh;
+  padding-bottom:80px;-webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+body::before{
+  content:'';position:fixed;inset:0;
+  background:
+    radial-gradient(ellipse 80% 45% at 50% 0%,rgba(56,212,255,0.09) 0%,transparent 65%),
+    radial-gradient(ellipse 35% 35% at 8% 85%,rgba(255,200,32,0.05) 0%,transparent 70%),
+    radial-gradient(ellipse 35% 35% at 92% 85%,rgba(10,184,232,0.05) 0%,transparent 70%);
+  pointer-events:none;z-index:0;
+}
+body::after{
+  content:'';position:fixed;inset:0;
+  background-image:radial-gradient(circle,rgba(56,212,255,0.045) 1px,transparent 1px);
+  background-size:38px 38px;pointer-events:none;z-index:0;
+}
+
+/* HEADER */
+header{position:relative;z-index:1;text-align:center;padding:64px 24px 52px;border-bottom:2px solid rgba(56,212,255,0.14);overflow:hidden;}
+.rings{position:absolute;left:50%;top:30px;transform:translateX(-50%);width:320px;height:320px;pointer-events:none;z-index:0;}
+.ring{position:absolute;inset:0;border-radius:50%;animation:spin 20s linear infinite;}
+.ring:nth-child(1){border:2px solid rgba(56,212,255,0.15);animation-duration:22s}
+.ring:nth-child(2){inset:26px;border:1.5px solid rgba(255,200,32,0.11);animation-direction:reverse;animation-duration:15s}
+.ring:nth-child(3){inset:52px;border:1px solid rgba(56,212,255,0.08);animation-duration:35s}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.logo-wrap{position:relative;z-index:1;display:inline-block;margin-bottom:18px;}
+.logo-img{width:150px;height:150px;border-radius:50%;border:3px solid rgba(56,212,255,0.35);box-shadow:0 0 40px rgba(56,212,255,0.22),0 0 80px rgba(255,200,32,0.09);object-fit:cover;display:block;transition:transform .4s,box-shadow .4s;}
+.logo-img:hover{transform:scale(1.07) rotate(2deg);box-shadow:0 0 60px rgba(56,212,255,0.38),0 0 100px rgba(255,200,32,0.14);}
+
+.eyebrow{font-size:10px;font-weight:900;letter-spacing:8px;text-transform:uppercase;color:var(--cyan);margin-bottom:8px;text-shadow:0 0 18px rgba(56,212,255,0.5);position:relative;z-index:1;}
+h1{font-family:'Bangers',cursive;font-size:clamp(3.2rem,11vw,6.5rem);letter-spacing:10px;line-height:.9;position:relative;z-index:1;background:linear-gradient(160deg,#fff 0%,var(--cyan) 28%,var(--yellow) 62%,#fff 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;background-size:200% auto;animation:shimmer 5s linear infinite;filter:drop-shadow(4px 5px 0 rgba(0,20,60,0.8));}
+@keyframes shimmer{to{background-position:200% center}}
+.subtitle{font-size:12px;font-weight:700;color:var(--muted2);margin-top:10px;position:relative;z-index:1;letter-spacing:.8px;}
+.subtitle strong{color:var(--yellow);}
+.badge-row{display:flex;justify-content:center;gap:10px;margin-top:20px;flex-wrap:wrap;position:relative;z-index:1;}
+.badge{background:rgba(10,22,45,0.8);border:1.5px solid var(--border2);border-radius:999px;padding:6px 18px;font-size:11px;font-weight:900;letter-spacing:.8px;text-transform:uppercase;}
+.badge.cyan{color:var(--cyan);border-color:rgba(56,212,255,0.32);}
+.badge.yellow{color:var(--yellow);border-color:rgba(255,200,32,0.32);}
+
+/* SECTION */
+.section-title{position:relative;z-index:1;max-width:1200px;margin:52px auto 22px;padding:0 24px;display:flex;align-items:center;gap:16px;}
+.section-title span{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:900;letter-spacing:5px;color:var(--cyan);text-shadow:0 0 16px rgba(56,212,255,0.4);white-space:nowrap;}
+.section-title::before,.section-title::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--border2),transparent);}
+
+/* GRID */
+.grid{position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:0 24px;display:grid;grid-template-columns:repeat(auto-fill,minmax(255px,1fr));gap:14px;}
+
+/* CARD */
+.card{background:linear-gradient(155deg,rgba(10,22,45,0.96) 0%,rgba(14,28,58,0.96) 100%);border:1.5px solid var(--border);border-radius:var(--radius);overflow:hidden;text-decoration:none;color:inherit;display:flex;flex-direction:column;position:relative;transition:transform .22s,box-shadow .22s,border-color .22s;animation:rise .38s ease both;}
+@keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.card:nth-child(1){animation-delay:.04s}.card:nth-child(2){animation-delay:.09s}.card:nth-child(3){animation-delay:.14s}.card:nth-child(4){animation-delay:.19s}.card:nth-child(5){animation-delay:.24s}.card:nth-child(6){animation-delay:.29s}.card:nth-child(7){animation-delay:.34s}.card:nth-child(8){animation-delay:.39s}.card:nth-child(9){animation-delay:.44s}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--accent,var(--cyan));opacity:.6;transition:opacity .2s;z-index:3;}
+.card:hover{transform:translateY(-6px) scale(1.01);}
+.card:hover::before{opacity:1;}
+
+/* BANNER */
+.card-banner{height:120px;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;position:relative;flex-shrink:0;padding:14px 18px 10px;text-align:center;}
+.card-banner-bg{position:absolute;inset:0;transition:opacity .3s;}
+.card:hover .card-banner-bg{filter:brightness(1.15);}
+.banner-eyebrow{font-family:'Barlow Condensed',sans-serif;font-size:8.5px;font-weight:700;letter-spacing:3.5px;text-transform:uppercase;position:relative;z-index:1;margin-bottom:4px;opacity:.7;}
+.banner-title-wrap{position:relative;z-index:1;text-align:center;}
+.banner-sub{font-family:'Barlow Condensed',sans-serif;font-size:8px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;position:relative;z-index:1;margin-top:5px;opacity:.5;}
+.card-type-badge{position:absolute;bottom:7px;right:9px;font-family:'Barlow Condensed',sans-serif;font-size:7.5px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:2px 8px;border-radius:999px;background:rgba(0,0,0,0.5);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,0.08);color:rgba(255,255,255,0.5);z-index:2;}
+
+/* BODY */
+.card-body{padding:13px 16px 16px;flex:1;display:flex;flex-direction:column;}
+.card-franchise{font-size:8.5px;font-weight:900;letter-spacing:2.5px;text-transform:uppercase;color:var(--muted2);margin-bottom:5px;}
+.card-desc{font-size:11px;font-weight:700;color:var(--muted2);line-height:1.6;flex:1;margin-bottom:12px;}
+.card-cta{display:flex;align-items:center;justify-content:space-between;background:rgba(56,212,255,0.06);border:1px solid var(--border2);border-radius:8px;padding:8px 12px;font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--cyan);transition:background .2s,color .2s;}
+.card:hover .card-cta{background:rgba(56,212,255,0.13);color:#fff;}
+.card-arrow{font-size:13px;transition:transform .2s;}
+.card:hover .card-arrow{transform:translateX(4px);}
+
+/* FOOTER */
+footer{position:relative;z-index:1;margin-top:70px;padding:26px 24px;border-top:1px solid var(--border);text-align:center;}
+footer p{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);line-height:2;max-width:700px;margin:0 auto;}
+footer strong{color:var(--cyan);}
+
+@media(max-width:600px){
+  .grid{grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;}
+  h1{font-size:3rem;letter-spacing:6px;}
+  .logo-img{width:115px;height:115px;}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="rings"><div class="ring"></div><div class="ring"></div><div class="ring"></div></div>
+  <div class="logo-wrap">
+    <img class="logo-img" src="logo.png" alt="BoGuS_PT">
+  </div>
+  <div class="eyebrow">Collector Tracker · All Collections</div>
+  <h1>BoGuS_PT</h1>
+  <p class="subtitle">Every collection. Every figure. Every check. — <strong>9 trackers</strong> and counting.</p>
+  <div class="badge-row">
+    <div class="badge cyan">✓ Track your collection</div>
+    <div class="badge yellow">★ Fan-made · No affiliation</div>
+  </div>
+</header>
+
+<div class="section-title"><span>FUNKO POP! TRACKERS</span></div>
+<div class="grid" id="funkos"></div>
+
+<div class="section-title"><span>TOYS-TO-LIFE &amp; PHYSICAL FIGURES</span></div>
+<div class="grid" id="toys"></div>
+
+<div class="section-title"><span>PHYSICAL GAMES</span></div>
+<div class="grid" id="games-grid"></div>
+
+<div class="section-title"><span>HARDWARE &amp; CONSOLES</span></div>
+<div class="grid" id="consoles-grid"></div>
+
+<footer>
+  <p>
+    All trackers are <strong>fan-made</strong> collectible checklists for personal use only.<br>
+    Not affiliated with, endorsed by, or connected to any of the brands represented.<br>
+    All product names, characters &amp; trademarks are property of their respective owners.
+  </p>
+</footer>
+
+<script>
+const funkoProjects=[
+  {
+    franchise:"Blizzard Entertainment",
+    type:"Funko Pop! · Games Collection",
+    eyebrow:"Funko Pop! · Games Collection",
+    lines:["OVERWATCH"],
+    fonts:["'Bebas Neue',sans-serif"],
+    sizes:["2.8rem"],
+    spacing:["8px"],
+    colors:["#e8f4ff"],
+    sub:"Complete checklist — figures & variants",
+    desc:"All Funko Pops from the Overwatch universe — Wave 1 through OW2, exclusives, keychains and multi-packs.",
+    url:"https://bogus13pt.github.io/overwatch-funkos/",
+    accent:"#4db8ff",bg:"linear-gradient(160deg,#061428 0%,#0a2040 100%)",eyebrowColor:"#4db8ff"
+  },
+  {
+    franchise:"Blizzard Entertainment",
+    type:"Funko Pop! · Games Collection",
+    eyebrow:"Funko Pop! · Games Collection",
+    lines:["BLIZZARD"],
+    fonts:["'Bebas Neue',sans-serif"],
+    sizes:["2.8rem"],
+    spacing:["8px"],
+    colors:["#e8f4ff"],
+    sub:"Complete collection — figures & variants",
+    desc:"Funko Pops across the full Blizzard universe — Diablo, StarCraft, Hearthstone, Heroes of the Storm and more.",
+    url:"https://bogus13pt.github.io/blizzard-funkos/",
+    accent:"#00a8ff",bg:"linear-gradient(160deg,#04111f 0%,#0a1e38 100%)",eyebrowColor:"#00a8ff"
+  },
+  {
+    franchise:"Bungie",
+    type:"Funko Pop! · Games · Bungie",
+    eyebrow:"Funko Pop! · Games · Bungie",
+    lines:["DESTINY"],
+    fonts:["'Bebas Neue',sans-serif"],
+    sizes:["2.8rem"],
+    spacing:["8px"],
+    colors:["#f5c400"],
+    sub:"Complete collector checklist — figures & variants",
+    desc:"Every Guardian, Exotic and variant from the Destiny universe — Hunter, Titan and Warlock all represented.",
+    url:"https://bogus13pt.github.io/destiny-funkos/",
+    accent:"#f5c400",bg:"linear-gradient(160deg,#120b00 0%,#241800 100%)",eyebrowColor:"#f5c400"
+  },
+  {
+    franchise:"Wizards of the Coast · Critical Role",
+    type:"Funko Pop! · Tabletop & RPG",
+    eyebrow:"Funko Pop! · Tabletop & RPG",
+    lines:["DUNGEONS & DRAGONS","& CRITICAL ROLE"],
+    fonts:["'Bebas Neue',sans-serif","'Bebas Neue',sans-serif"],
+    sizes:["1.85rem","1.35rem"],
+    spacing:["4px","4px"],
+    colors:["#f97316","#c84b11"],
+    sub:"Coleção Completa — figuras & variantes",
+    desc:"Toda a linha oficial D&D e Critical Role — Vox Machina, Mighty Nein, Bells Hells e todos os variants.",
+    url:"https://bogus13pt.github.io/dungeons-funkos/",
+    accent:"#c84b11",bg:"linear-gradient(160deg,#120500 0%,#200a00 100%)",eyebrowColor:"#c84b11"
+  },
+];
+
+const toyProjects=[
+  {
+    franchise:"Activision",
+    type:"Portal of Power · Collection Checklist",
+    eyebrow:"Portal of Power · Collection Checklist",
+    lines:["SKYLANDERS"],
+    fonts:["'Bangers',cursive"],
+    sizes:["2.6rem"],
+    spacing:["6px"],
+    colors:["#38d4ff"],
+    sub:"Every figure placed on the Portal",
+    desc:"Full checklist — every Skylander from Spyro's Adventure to Imaginators, Traps, Vehicles and Creation Crystals.",
+    url:"https://bogus13pt.github.io/skylanders/",
+    accent:"#38d4ff",bg:"linear-gradient(160deg,#050e1e 0%,#0c1c38 100%)",eyebrowColor:"#38d4ff"
+  },
+  {
+    franchise:"Ubisoft",
+    type:"Toys-to-Life · Complete Physical Checklist",
+    eyebrow:"Toys-to-Life · Complete Physical Checklist",
+    lines:["STARLINK","BATTLE FOR ATLAS"],
+    fonts:["'Bebas Neue',sans-serif","'Bebas Neue',sans-serif"],
+    sizes:["2.3rem","1.5rem"],
+    spacing:["6px","4px"],
+    colors:["#f97316","#fb923c"],
+    sub:"Every physical toy released",
+    desc:"Complete inventory of every ship, pilot and weapon pack from Ubisoft's modular space toys-to-life series.",
+    url:"https://bogus13pt.github.io/starlink/",
+    accent:"#f97316",bg:"linear-gradient(160deg,#0e0600 0%,#1c0c00 100%)",eyebrowColor:"#f97316"
+  },
+  {
+    franchise:"LEGO / Warner Bros",
+    type:"Toy Pad · Complete Collection Checklist",
+    eyebrow:"Toy Pad · Complete Collection Checklist",
+    lines:["LEGO","DIMENSIONS"],
+    fonts:["'Bangers',cursive","'Bangers',cursive"],
+    sizes:["2.5rem","2.1rem"],
+    spacing:["5px","3px"],
+    colors:["#fbbf24","#fde68a"],
+    sub:"Every pack ever released — 9 waves",
+    desc:"Every LEGO Dimensions starter, level pack, team pack and fun pack — all waves, all franchises.",
+    url:"https://bogus13pt.github.io/legodimensions/",
+    accent:"#fbbf24",bg:"linear-gradient(160deg,#110900 0%,#1e1000 100%)",eyebrowColor:"#fbbf24"
+  },
+];
+
+const gamesProjects=[
+  {
+    franchise:"EA · Activision · Microsoft · Blizzard",
+    type:"Physical Games · Collection Tracker",
+    eyebrow:"Physical Games · Collection Tracker",
+    lines:["WAR CHEST"],
+    fonts:["'Bebas Neue',sans-serif"],
+    sizes:["2.8rem"],
+    spacing:["8px"],
+    colors:["#22c55e"],
+    sub:"Every physical release — 5 franchises",
+    desc:"Complete tracker for physical game releases — FIFA, Call of Duty, Halo, Gears and Overwatch.",
+    url:"https://bogus13pt.github.io/games/",
+    accent:"#22c55e",bg:"linear-gradient(160deg,#030e07 0%,#071a0d 100%)",eyebrowColor:"#22c55e"
+  },
+];
+
+const consolesProjects=[
+  {
+    franchise:"Gaming Hardware Archive",
+    type:"Gaming Hardware Archive · Collection Checklist",
+    eyebrow:"Gaming Hardware Archive · Checklist",
+    lines:["CONSOLE","ARCHIVE"],
+    fonts:["'Bebas Neue',sans-serif","'Bebas Neue',sans-serif"],
+    sizes:["2.5rem","2.0rem"],
+    spacing:["7px","5px"],
+    colors:["#a78bfa","#c4b5fd"],
+    sub:"All generations · All manufacturers",
+    desc:"Complete archive of every home console, handheld and variant — 13 manufacturers, all generations covered.",
+    url:"https://bogus13pt.github.io/consoles/",
+    accent:"#a78bfa",bg:"linear-gradient(160deg,#0a0515 0%,#130925 100%)",eyebrowColor:"#a78bfa"
+  },
+];
+
+function makeCard(p){
+  const a=document.createElement('a');
+  a.className='card';a.href=p.url;a.target='_blank';a.rel='noopener noreferrer';
+  a.style.setProperty('--accent',p.accent);
+
+  const banner=document.createElement('div');banner.className='card-banner';
+  const bg=document.createElement('div');bg.className='card-banner-bg';bg.style.background=p.bg;
+  banner.appendChild(bg);
+
+  const ey=document.createElement('div');ey.className='banner-eyebrow';ey.style.color=p.eyebrowColor;ey.textContent=p.eyebrow;
+  banner.appendChild(ey);
+
+  const tw=document.createElement('div');tw.className='banner-title-wrap';
+  p.lines.forEach((line,i)=>{
+    const d=document.createElement('div');
+    d.style.cssText=`font-family:${p.fonts[i]};font-size:${p.sizes[i]};letter-spacing:${p.spacing[i]};color:${p.colors[i]};text-shadow:0 0 28px ${p.accent}55,0 2px 0 rgba(0,0,0,0.7);line-height:.9;`;
+    d.textContent=line;tw.appendChild(d);
+  });
+  banner.appendChild(tw);
+
+  const sub=document.createElement('div');sub.className='banner-sub';sub.style.color=p.eyebrowColor;sub.textContent=p.sub;
+  banner.appendChild(sub);
+
+  const tb=document.createElement('div');tb.className='card-type-badge';tb.textContent=p.type;
+  banner.appendChild(tb);
+
+  a.appendChild(banner);
+
+  const body=document.createElement('div');body.className='card-body';
+  body.innerHTML=`
+    <div class="card-franchise">${p.franchise}</div>
+    <div class="card-desc">${p.desc}</div>
+    <div class="card-cta"><span>Open Tracker</span><span class="card-arrow">→</span></div>
+  `;
+  a.appendChild(body);
+
+  a.addEventListener('mouseenter',()=>{a.style.borderColor=p.accent+'55';a.style.boxShadow=`0 16px 50px ${p.accent}20,0 4px 14px rgba(0,0,0,0.5)`;});
+  a.addEventListener('mouseleave',()=>{a.style.borderColor='';a.style.boxShadow='';});
+  return a;
+}
+
+funkoProjects.forEach(p=>document.getElementById('funkos').appendChild(makeCard(p)));
+toyProjects.forEach(p=>document.getElementById('toys').appendChild(makeCard(p)));
+gamesProjects.forEach(p=>document.getElementById('games-grid').appendChild(makeCard(p)));
+consolesProjects.forEach(p=>document.getElementById('consoles-grid').appendChild(makeCard(p)));
+</script>
+</body>
+</html>
