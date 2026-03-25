@@ -78,9 +78,9 @@ h1{font-family:'Bangers',cursive;font-size:clamp(3.2rem,11vw,6.5rem);letter-spac
 .card-banner{height:120px;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;position:relative;flex-shrink:0;padding:14px 18px 10px;text-align:center;}
 .card-banner-bg{position:absolute;inset:0;transition:opacity .3s;}
 .card:hover .card-banner-bg{filter:brightness(1.15);}
-.banner-eyebrow{font-family:'Barlow Condensed',sans-serif;font-size:8.5px;font-weight:700;letter-spacing:3.5px;text-transform:uppercase;position:relative;z-index:1;margin-bottom:4px;opacity:.7;}
+.banner-eyebrow{display:none;}
 .banner-title-wrap{position:relative;z-index:1;text-align:center;}
-.banner-sub{font-family:'Barlow Condensed',sans-serif;font-size:8px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;position:relative;z-index:1;margin-top:5px;opacity:.5;}
+.banner-sub{display:none;}
 .card-type-badge{position:absolute;bottom:7px;right:9px;font-family:'Barlow Condensed',sans-serif;font-size:7.5px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:2px 8px;border-radius:999px;background:rgba(0,0,0,0.5);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,0.08);color:rgba(255,255,255,0.5);z-index:2;}
 
 /* BODY */
@@ -112,7 +112,6 @@ footer strong{color:var(--cyan);}
     <img class="logo-img" src="logo.png" alt="BoGuS_PT">
   </div>
   <div class="eyebrow">Collector Tracker · All Collections</div>
-  <h1>BoGuS_PT</h1>
   <p class="subtitle">Every collection. Every figure. Every check. — <strong>9 trackers</strong> and counting.</p>
   <div class="badge-row">
     <div class="badge cyan">✓ Track your collection</div>
@@ -160,11 +159,11 @@ const funkoProjects=[
     franchise:"Blizzard Entertainment",
     type:"Funko Pop! · Games Collection",
     eyebrow:"Funko Pop! · Games Collection",
-    lines:["BLIZZARD"],
-    fonts:["'Bebas Neue',sans-serif"],
-    sizes:["2.8rem"],
-    spacing:["8px"],
-    colors:["#e8f4ff"],
+    lines:["BLIZZARD","EXCL. OVERWATCH"],
+    fonts:["'Bebas Neue',sans-serif","'Barlow Condensed',sans-serif"],
+    sizes:["2.8rem","0.85rem"],
+    spacing:["8px","4px"],
+    colors:["#e8f4ff","rgba(0,168,255,0.6)"],
     sub:"Complete collection — figures & variants",
     desc:"Funko Pops across the full Blizzard universe — Diablo, StarCraft, Hearthstone, Heroes of the Storm and more.",
     url:"https://bogus13pt.github.io/blizzard-funkos/",
